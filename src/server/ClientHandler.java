@@ -59,12 +59,15 @@ public class ClientHandler {
                         // Если получаем шаблон личного сообщения
                         if (str.startsWith("/w")) {
                             // Делим его на 3 куска
-                            String privateMsg [] = str.split(" ", 3);
+                            String[] privateMsg = str.split(" ", 3);
                             // Получаем адресата по нику
                             ClientHandler sendTo = getClientByNickname (privateMsg[1]);
-                            // Отправляем сообщение адресату и себе
-                            sendTo.sendMsg(this.nick + ": " + privateMsg[2]);
-                            this.sendMsg(this.nick + ": " + privateMsg[2]);
+                            if (sendTo != null) {
+                                // Отправляем сообщение адресату и себе
+                                sendTo.sendMsg(this.nick + ": " + privateMsg[2]);
+                                this.sendMsg(this.nick + ": " + privateMsg[2]);
+                            } else this.sendMsg("Нет такого!");
+
                         } else
                             server.broadcastMsg(str, nick);
                     }
